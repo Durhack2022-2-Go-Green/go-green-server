@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import logger from './log.js';
 
 import './config/env.config.js'; // workaround for ES imports being hoisted, to import the env file before other modules
 import server from './app.js';
@@ -12,9 +13,9 @@ mongoose.connect(
 		useUnifiedTopology: true,
 	},
 	() => {
-		console.log('Connected to MongoDB');
+		logger.info('Connected to MongoDB');
 		server.listen(port, () => {
-			console.log(`Server listening on port ${port}`);
+			logger.info(`Server listening on port ${port}`);
 		});
 	}
 );
