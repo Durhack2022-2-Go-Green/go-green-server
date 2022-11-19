@@ -33,7 +33,7 @@ export const getPost = async (req, res, next) => {
 };
 
 export const createPost = async (req, res, next) => {
-	// TODO: check this - should be authorized here
+	//TODO: data validation on request body
 	const post = new PostModel({
 		authorId: req.user.id,
 		...req.body}
@@ -46,10 +46,9 @@ export const createPost = async (req, res, next) => {
 };
 
 export const addComment = async (req, res, next) => {
-	// TODO: check this - should be authorized here
-
 	const { id } = req.params;
 
+	//TODO: data validation on request body
 	const post = PostModel.findById(id);
 	if (post === undefined) {
 		res.status(404).json({ message: 'Post not found' });
