@@ -12,10 +12,7 @@ export const PostSchema = new Schema({
 		type: String,
 		required: true
 	},
-	points: {
-		type: Array,
-		default: []
-	},
+	points: [{type: Schema.Types.ObjectId, ref: 'users'}],
 	image: ImageSchema,
 	comments: [CommentSchema]
 }, {collection: 'posts'}, { timestamps: true });
