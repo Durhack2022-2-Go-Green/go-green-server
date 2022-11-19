@@ -8,7 +8,7 @@ export const UserSchema = new Schema({
 		type: String,
 		required: true,
 		require: 'Name is required',
-		unique: 'Username already exists'
+		unique: true
 	},
 	password: {
 		type: String,
