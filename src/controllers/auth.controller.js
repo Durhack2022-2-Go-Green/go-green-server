@@ -4,7 +4,17 @@ import { UserModel } from '../schemas/user.schema.js';
 import getError from '../lib/errorhandler.js';
 
 export const getCurrentUser = async (req, res, next) => {
-	res.status(501).json({ message: 'Not implemented' });
+	const user = await UserModel.findById(req.auth._id);
+
+	if(!user) return res.status(401).json({ message: 'Unauthorized' });
+
+	res.status(200).json({ 
+		message: 'user Retrieved Successfully',
+		user: {
+			id: user._id,
+			username: user.username
+		}
+	});
 };
 
 export const login = async (req, res, next) => {
@@ -12,8 +22,8 @@ export const login = async (req, res, next) => {
 
 	// TODO: add guard clauses to validate data to user schema
 	try {
-		if(!user) return res.status(401).json({error: 'Incorrect username or password'});
-		if(!user.authenticateUser(res.body.password)) return res.status(401).json({error: 'Incorrect username or password'});
+		if(!user) return res.status(401).json({message: 'Incorrect username or password'});
+		if(!user.authenticateUser(res.body.password)) return res.status(401).json({message: 'Incorrect username or password'});
 
 		const token = jsonwebtoken.sign({
 			id: user._id
