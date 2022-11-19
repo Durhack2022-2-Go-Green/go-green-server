@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "pretest": "eslint **/*.js",
-    "test": "test",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand ./test",
     "start": "node .",
     "dev": "nodemon ."
   },
@@ -35,6 +35,8 @@
   },
   "devDependencies": {
     "eslint": "^8.28.0",
+    "jest": "^29.3.1",
+    "mongodb-memory-server": "^8.10.0",
     "nodemon": "^2.0.20"
   }
 }
