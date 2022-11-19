@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { Image } from './image.schema.js';
 
-import { hashPassword, comparePassword } from './lib/crypto.js';
+import { hashPassword, comparePassword } from '../lib/crypto.js';
 
 export const User = new Schema({
 	username: {
