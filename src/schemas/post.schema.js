@@ -5,8 +5,8 @@ import { CommentSchema } from './comment.schema.js';
 
 export const PostSchema = new Schema({
 	authorId: {
-		type: String,
-		required: true
+		type: Schema.Types.ObjectId,
+		ref: 'users',
 	},
 	content: {
 		type: String,
