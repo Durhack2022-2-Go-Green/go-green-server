@@ -4,7 +4,7 @@ import { UserModel } from '../schemas/user.schema.js';
 import getError from '../lib/errorhandler.js';
 
 export const getCurrentUser = async (req, res, next) => {
-	const user = await UserModel.findById(req.auth._id);
+	const user = await UserModel.findById(req.user.id);
 
 	if(!user) return res.status(401).json({ message: 'Unauthorized' });
 
@@ -32,7 +32,7 @@ export const login = async (req, res, next) => {
 		res.cookie('authorization', token, {
 			expire: new Date() + 86400,
 			httpOnly: true,
-			secure: true
+			secure: false
 		});
 
 		res.status(200).json({
