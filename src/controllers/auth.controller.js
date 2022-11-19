@@ -9,7 +9,7 @@ export const getCurrentUser = async (req, res, next) => {
 	if(!user) return res.status(401).json({ message: 'Unauthorized' });
 
 	res.status(200).json({ 
-		message: 'user Retrieved Successfully',
+		message: 'User retrieved Successfully',
 		user: {
 			id: user._id,
 			username: user.username
