@@ -5,7 +5,10 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "test": "test"
+    "pretest": "eslint **/*.js",
+    "test": "test",
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "repository": {
     "type": "git",
