@@ -28,6 +28,12 @@ module.exports = {
 			'always'
 		],
 		'eol-last': 'error',
-		'no-var' : 'error'
+		'no-var' : 'error',
+		'no-unused-vars': [
+			'error', {
+				'args': 'all', 
+				'argsIgnorePattern': '{req|res|next}',
+			}
+		]
 	}
 };
