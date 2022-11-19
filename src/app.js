@@ -5,6 +5,8 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 
 import LoggerMiddleware from './middlewares/logger.middleware.js';
+import MethodMiddleware from './middlewares/methods.middleware.js';
+
 import ApiRouter from './routes/api.route.js';
 
 const app = express();
@@ -17,6 +19,7 @@ app.use(helmet());
 app.use(compression());
 
 app.use(LoggerMiddleware);
+app.use(MethodMiddleware);
 
 app.use('/api/', ApiRouter);
 
