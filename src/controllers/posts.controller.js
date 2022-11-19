@@ -1,5 +1,7 @@
 import { PostModel } from '../schemas/post.schema.js';
 
+import getError from '../lib/errorhandler.js';
+
 export const getPosts = async (req, res, next) => {
 	const { userId } = req.query;
 	if (userId === undefined) {
@@ -30,5 +32,10 @@ export const getPost = async (req, res, next) => {
 };
 
 export const createPost = async (req, res, next) => {
-	res.status(501).json({ message: 'Not implemented' });
+	const post = new PostModel(req.body);
+
+	post.save((err, res) => {
+		if(err) return res.status(500).json({ error: getError(err) });
+		res.status(201).json({ message: 'Post added', user: res});
+	});
 };
