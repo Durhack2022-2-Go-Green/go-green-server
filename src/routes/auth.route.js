@@ -5,7 +5,7 @@ import * as AuthController from '../controllers/auth.controller.js';
 
 const router = Router();
 
-router.post('/', AuthController.login);
+router.post('/', AuthMiddleware, AuthController.login);
 
 router.get('/', AuthController.getCurrentUser);
 
