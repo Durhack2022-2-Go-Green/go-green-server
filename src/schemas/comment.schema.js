@@ -2,8 +2,8 @@ import { Schema, model } from 'mongoose';
 
 export const CommentSchema = new Schema({
 	authorId: {
-		type: String,
-		required: true
+		type: Schema.Types.ObjectId,
+		ref: 'users',
 	},
 	content: {
 		type: String,
