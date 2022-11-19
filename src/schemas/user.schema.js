@@ -14,10 +14,6 @@ export const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
-	dateCreated: {
-		type: Date,
-		required: true
-	},
 	profilePicture: ImageSchema,
 	friends: {
 		type: Array, 
