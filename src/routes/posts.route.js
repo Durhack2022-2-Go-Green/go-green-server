@@ -9,6 +9,8 @@ router.get('/', PostsController.getPosts);
 
 router.get('/:id', PostsController.getPost);
 
+router.post('/:id/add_comment', AuthMiddleware, PostsController.addComment);
+
 router.post('/', AuthMiddleware, PostsController.createPost);
 
 export default router;
