@@ -5,9 +5,9 @@ import * as AuthController from '../controllers/auth.controller.js';
 
 const router = Router();
 
-router.post('/', AuthMiddleware, AuthController.login);
+router.post('/', AuthController.login);
 
-router.get('/', AuthController.getCurrentUser);
+router.get('/', AuthMiddleware, AuthController.getCurrentUser);
 
 router.post('/register', AuthController.createUser);
 
