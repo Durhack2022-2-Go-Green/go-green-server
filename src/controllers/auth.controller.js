@@ -23,7 +23,7 @@ export const login = async (req, res, next) => {
 	// TODO: add guard clauses to validate data to user schema
 	try {
 		if(!user) return res.status(401).json({message: 'Incorrect username or password'});
-		if(!user.authenticateUser(res.body.password)) return res.status(401).json({message: 'Incorrect username or password'});
+		if(!user.authenticateUser(req.body.password)) return res.status(401).json({message: 'Incorrect username or password'});
 
 		const token = jsonwebtoken.sign({
 			id: user._id
