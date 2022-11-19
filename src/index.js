@@ -11,6 +11,7 @@ mongoose.connect(
 	{
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		autoIndex: true
 	},
 	(error) => {
 		if (error) {
