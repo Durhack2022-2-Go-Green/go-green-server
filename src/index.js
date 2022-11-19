@@ -12,7 +12,12 @@ mongoose.connect(
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	},
-	() => {
+	(error) => {
+		if (error) {
+			logger.error(error.message);
+			process.exit(1);
+		}
+
 		logger.info('Connected to MongoDB');
 		server.listen(port, () => {
 			logger.info(`Server listening on port ${port}`);
