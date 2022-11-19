@@ -34,8 +34,8 @@ export const getPost = async (req, res, next) => {
 export const createPost = async (req, res, next) => {
 	const post = new PostModel(req.body);
 
-	post.save((err, res) => {
-		if(err) return res.status(500).json({ error: getError(err) });
-		res.status(201).json({ message: 'Post added', user: res});
+	post.save((err, dat) => {
+		if(err) return res.status(400).json({ error: getError(err) });
+		res.status(201).json({ message: 'Post added', user: dat});
 	});
 };

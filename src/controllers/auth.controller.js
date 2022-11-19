@@ -59,9 +59,9 @@ export const createUser = async (req, res, next) => {
 		req.body
 	);
 
-	user.save((err, res) => {
-		if(err) return res.status(500).json({ error: getError(err) });
-		res.status(201).json({ message: 'User created', user: res});
+	user.save((err, dat) => {
+		if(err) return res.status(400).json({ error: getError(err) });
+		res.status(201).json({ message: 'User created', user: dat});
 	});
 
 };
