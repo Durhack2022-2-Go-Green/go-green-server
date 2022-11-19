@@ -5,4 +5,8 @@ const router = Router();
 
 router.get('/', PostsController.getPosts);
 
+router.get('/:id', PostsController.getPost);
+
+router.post('/', PostsController.createPost);
+
 export default router;
