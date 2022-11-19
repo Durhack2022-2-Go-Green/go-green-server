@@ -8,4 +8,4 @@ export const UserComment = new Schema({
 	},
 	dateCreated: Date,
 	comments: [UserComment]
-});
+}, {collection: 'comments'});

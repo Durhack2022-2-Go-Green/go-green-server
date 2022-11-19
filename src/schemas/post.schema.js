@@ -11,6 +11,5 @@ export const Post = new Schema({
 	},
 	points: [ObjectId],
 	image: Image,
-	date: Date,
 	comments: [UserComment]
-});
+}, {collection: 'posts'}, { timestamps: true });
