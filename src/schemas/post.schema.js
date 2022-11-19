@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 import { ImageSchema } from './image.schema.js';
-import { CommentSchema } from './usercomment.schema.js';
+import { CommentSchema } from './comment.schema.js';
 
 export const PostSchema = new Schema({
 	authorId: {
