@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
 
-export const Image = new Schema({
+export const ImageSchema = new Schema({
 	type: String,
 	url: String,
 	data: Buffer
 });
 
-export const ImageModel = model('Image', Image);
+export const ImageModel = model('Image', ImageSchema);

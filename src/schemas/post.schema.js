@@ -1,17 +1,23 @@
-import { Schema, model, ObjectId } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-import { Image } from './image.schema.js';
-import { UserComment } from './usercomment.schema.js';
+import { ImageSchema } from './image.schema.js';
+import { CommentSchema } from './usercomment.schema.js';
 
-export const Post = new Schema({
-	author: ObjectId,
+export const PostSchema = new Schema({
+	authorId: {
+		type: String,
+		required: true
+	},
 	content: {
 		type: String,
 		required: true
 	},
-	points: [ObjectId],
-	image: Image,
-	comments: [UserComment]
+	points: {
+		type: Array,
+		default: []
+	},
+	image: ImageSchema,
+	comments: [CommentSchema]
 }, {collection: 'posts'}, { timestamps: true });
 
-export const PostModel = model('Post', Post);
+export const PostModel = model('Post', PostSchema);

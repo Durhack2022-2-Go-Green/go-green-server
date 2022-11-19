@@ -1,12 +1,15 @@
-import { Schema, model, ObjectId } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-export const UserComment = new Schema({
-	author: ObjectId,
+export const CommentSchema = new Schema({
+	authorId: {
+		type: String,
+		required: true
+	},
 	content: {
 		type: String,
 		required: true
 	},
-	comments: [UserComment]
+	replies: [{type: Schema.Types.ObjectId, ref: 'comments'}]
 }, {collection: 'comments'}, { timestamps: true });
 
-export const UserCommentModel = model('UserComment', UserComment);
+export const CommentModel = model('Comment', Comment);

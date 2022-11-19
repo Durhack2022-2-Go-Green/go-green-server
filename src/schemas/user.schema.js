@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { Image } from './image.schema.js';
+import { ImageSchema } from './image.schema.js';
 
 import { hashPassword, comparePassword } from '../lib/crypto.js';
 
-export const User = new Schema({
+export const UserSchema = new Schema({
 	username: {
 		type: String,
 		required: true,
@@ -18,7 +18,7 @@ export const User = new Schema({
 		type: Date,
 		required: true
 	},
-	profilePicture: Image,
+	profilePicture: ImageSchema,
 	friends: {
 		type: Array, 
 		default: []
@@ -56,7 +56,7 @@ export const User = new Schema({
 	}
 }, {collection: 'users'}, { timestamps: true });
 
-User.pre('save', async function(next) {
+UserSchema.pre('save', async function(next) {
 	let user = this;
 
 	if (!user.isModified('password')) return next();
@@ -65,10 +65,10 @@ User.pre('save', async function(next) {
 	next();
 });
 
-User.methods = {
+UserSchema.methods = {
 	authenticateUser: async function(plaintextPassword) {    //basic jw authentication
 		return await comparePassword(plaintextPassword, this.password);
 	}
 };
 
-export const UserModel = model('User', User);
+export const UserModel = model('User', UserSchema);
