@@ -6,8 +6,7 @@ export const UserComment = new Schema({
 		type: String,
 		required: true
 	},
-	dateCreated: Date,
 	comments: [UserComment]
-}, {collection: 'comments'});
+}, {collection: 'comments'}, { timestamps: true });
 
 export const UserCommentModel = model('UserComment', UserComment);
