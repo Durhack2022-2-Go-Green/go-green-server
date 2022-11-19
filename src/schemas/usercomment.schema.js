@@ -1,4 +1,4 @@
-import { Schema, ObjectId } from 'mongoose';
+import { Schema, model, ObjectId } from 'mongoose';
 
 export const UserComment = new Schema({
 	author: ObjectId,
@@ -9,3 +9,5 @@ export const UserComment = new Schema({
 	dateCreated: Date,
 	comments: [UserComment]
 }, {collection: 'comments'});
+
+export const UserCommentModel = model('UserComment', UserComment);
