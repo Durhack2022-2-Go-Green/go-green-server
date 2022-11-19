@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import logger from './log.js';
+import logger from './lib/logger.js';
 
 import './config/env.config.js'; // workaround for ES imports being hoisted, to import the env file before other modules
 import server from './app.js';
