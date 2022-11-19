@@ -12,4 +12,4 @@ export const CommentSchema = new Schema({
 	replies: [{type: Schema.Types.ObjectId, ref: 'comments'}]
 }, {collection: 'comments'}, { timestamps: true });
 
-export const CommentModel = model('Comment', Comment);
+export const CommentModel = model('Comment', CommentSchema);
