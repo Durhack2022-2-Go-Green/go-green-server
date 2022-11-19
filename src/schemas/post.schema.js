@@ -9,7 +9,7 @@ export const Post = new Schema({
 		type: String,
 		required: true
 	},
-	points: Number,
+	points: [ObjectId],
 	image: Image,
 	date: Date,
 	comments: [UserComment]
