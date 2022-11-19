@@ -32,7 +32,7 @@ module.exports = {
 		'no-unused-vars': [
 			'error', {
 				'args': 'all', 
-				'argsIgnorePattern': '{req|res|next}',
+				'argsIgnorePattern': '(req|res|next)',
 			}
 		]
 	}
