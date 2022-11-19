@@ -19,11 +19,9 @@ export const getCurrentUser = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
 	const user = await UserModel.findOne({username: req.body.username});
-
-	// TODO: add guard clauses to validate data to user schema
 	try {
-		if(!user) return res.status(401).json({message: 'Incorrect username or password'});
-		if(!user.authenticateUser(req.body.password)) return res.status(401).json({message: 'Incorrect username or password'});
+		if(!(req.body.password && user)) return res.status(401).json({message: 'Incorrect username or password'});
+		if(!(await user.authenticateUser(req.body.password))) return res.status(401).json({message: 'Incorrect username or password'});
 
 		const token = jsonwebtoken.sign({
 			id: user._id
