@@ -24,15 +24,15 @@ export const UserSchema = new Schema({
 		type: Array, 
 		default: []
 	},
-	pendingInvites:{
+	pendingInvites: {
 		type: Array,
 		default: []
 	},
-	pendingRequests:{
+	pendingRequests: {
 		type: Array,
 		default: []
 	},
-	blockedUsers:{
+	blockedUsers: {
 		type: Array,
 		default: []
 	},
@@ -40,20 +40,20 @@ export const UserSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
-	desc:{
+	desc: {
 		type: String,
 		default: '',
 		max: 256
 	},
-	city:{
+	city: {
 		type: String,
 		default: '',
 		max: 50
 	},
-	from:{
+	country: {
 		type: String,
 		default: '',
-		max: 50
+		max: 64
 	}
 }, {collection: 'users'}, { timestamps: true });
 
