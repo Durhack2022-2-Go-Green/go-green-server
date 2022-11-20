@@ -116,13 +116,43 @@ export const removeFriend = async (req, res, next) => {
 };
 
 export const getRequests = async (req, res, next) => {
-	return res.status(501).json({ message: 'Not implemented' });
+	try {
+		const user = await UserModel.findById(req.user.id);
+
+		if(!user) return res.status(401).json({ message: 'Unauthorized' });
+		return res.status(200).json({
+			message: 'Friend requests successfully retrieved',
+			requests: user.pendingInvites
+		});
+	} catch (err) {
+		return res.status(500).json({ error: getError(err) });
+	}
 };
 
 export const getSentRequests = async (req, res, next) => {
-	return res.status(501).json({ message: 'Not implemented' });
+	try {
+		const user = await UserModel.findById(req.user.id);
+
+		if(!user) return res.status(401).json({ message: 'Unauthorized' });
+		return res.status(200).json({
+			message: 'Sent requests successfully retrieved',
+			requests: user.pendingRequests
+		});
+	} catch (err) {
+		return res.status(500).json({ error: getError(err) });
+	}
 };
 
 export const getFriends = async (req, res, next) => {
-	return res.status(501).json({ message: 'Not implemented' });
+	try {
+		const user = await UserModel.findById(req.user.id);
+
+		if(!user) return res.status(401).json({ message: 'Unauthorized' });
+		return res.status(200).json({
+			message: 'Friends successfully retrieved',
+			friends: user.friends
+		});
+	} catch (err) {
+		return res.status(500).json({ error: getError(err) });
+	}
 };
