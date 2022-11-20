@@ -3,6 +3,8 @@ import { PostModel } from '../schemas/post.schema.js';
 import getError from '../lib/errorhandler.js';
 import { CommentModel } from '../schemas/comment.schema.js';
 import { UserModel } from '../schemas/user.schema.js';
+import { NotificationModel } from '../schemas/notification.schema.js';
+import winston from 'winston';
 
 export const getPosts = async (req, res, next) => {
 	const { userId } = req.query;
@@ -58,6 +60,11 @@ export const addComment = async (req, res, next) => {
 			authorId: req.user.id,
 			...req.body
 		});
+
+		NotificationModel.findOneAndUpdate({type: 'new-comments', user: post.authorId, target: post._id}, {viewed: false}, {upsert: true}, (err) => {
+			if(err) winston.error(err.message);
+		});
+
 		post.comments.push(comment);
 		post.save((err, dat) => {
 			if(err) return res.status(400).json({ error: getError(err) });
@@ -89,6 +96,10 @@ export const likePost = async (req, res, next) => {
 			if (user === undefined) {
 				res.status(404).json({ message: 'User no longer exists' });
 			} else {
+				NotificationModel.findOneAndUpdate({type: 'new-likes', user: post.authorId, target: post._id}, {viewed: false}, {upsert: true}, (err) => {
+					if(err) winston.error(err.message);
+				});
+
 				// Increment the user's point count
 				user.points += 1;
 				user.save((err) => {

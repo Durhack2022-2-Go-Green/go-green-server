@@ -1,4 +1,6 @@
+import { NotificationModel } from '../schemas/notification.schema.js';
 import { UserModel } from '../schemas/user.schema.js';
+
 import getError from '../lib/errorhandler.js';
 
 export const addFriend = async (req, res, next) => {
@@ -24,8 +26,16 @@ export const addFriend = async (req, res, next) => {
 			target.friends.push(user._id);
 			target.pendingRequests = target.pendingRequests.filter(id => !id.equals(user._id));
 			user.pendingInvites = user.pendingInvites.filter(id => !id.equals(target._id));
+
+			const notification = new NotificationModel({
+				type: 'friend-accept',
+				user: target._id,
+				target: user._id,
+			});
+
 			await user.save();
 			await target.save();
+			await notification.save();
 			return res.status(200).json({ 
 				message: 'Friend Successfully added',
 				user: {
@@ -38,8 +48,15 @@ export const addFriend = async (req, res, next) => {
 		user.pendingRequests.push(target._id);
 		target.pendingInvites.push(user._id);
 
+		const notification = new NotificationModel({
+			type: 'friend-request',
+			user: target._id,
+			target: user._id,
+		});
+
 		await user.save();
 		await target.save();
+		await notification.save();
 
 		return res.status(200).json({
 			message: 'Friend request sent successfully',
