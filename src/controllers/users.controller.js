@@ -68,6 +68,57 @@ export const dismissNotification = async (req, res, next) => {
 	}
 };
 
+export const blockUser = async (req, res, next) => {
+	const { id } = req.params;
+	if(!id) return res.status(400).json({ message: 'Bad request' });
+
+	try {
+		const target = await UserModel.findById(id);
+		const user = await UserModel.findById(req.user.id);
+
+		if(!user) return res.status(401).json({ message: 'Unauthorized' });
+		if(!target) return res.status(404).json({ message: 'User not found' });
+
+		if(user.blockedUsers.includes(target._id)) {
+			user.blockedUsers = user.blockedUsers.filter(id => !id.equals(target._id));
+			user.save();
+
+			return res.status(200).json({
+				message: 'User successfully unblocked',
+				user: {
+					id: target._id,
+					username: target.username
+				}
+			});
+		}
+		
+		if(user.friends.includes(target._id)) {
+			user.friends = user.friends.filter(id => !id.equals(target._id));
+			target.friends = target.friends.filter(id => !id.equals(user._id));
+		}
+		if(user.pendingRequests.includes(target._id) || user.pendingInvites.includes(target._id)) {
+			user.pendingRequests = user.pendingRequests.filter(id => !id.equals(target._id));
+			user.pendingInvites = user.pendingInvites.filter(id => !id.equals(target._id));
+			target.pendingRequests = target.pendingRequests.filter(id => !id.equals(user._id));
+			target.pendingInvites = target.pendingInvites.filter(id => !id.equals(user._id));
+		}
+
+		user.blockedUsers.push(target._id);
+		await user.save();
+		await target.save();
+
+		return res.status(200).json({
+			message: 'User blocked successfully',
+			user: {
+				id: target._id,
+				username: target.username
+			}
+		});
+	} catch (err) {
+		return res.status(500).json({ error: getError(err) });
+	}
+};
+
 export const updateUser = async (req, res, next) => {
 	const user = await UserModel.findById(req.user.id);
 

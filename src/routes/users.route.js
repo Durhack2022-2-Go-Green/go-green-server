@@ -12,6 +12,7 @@ router.get('/', AuthMiddleware, UsersController.getCurrentUser);
 router.get('/notifications', AuthMiddleware, UsersController.getNotifications);
 router.put('/dismiss-notification/:id', AuthMiddleware, UsersController.dismissNotification);
 router.put('/update', AuthMiddleware, UsersController.updateUser);
+router.post('/:id/block', AuthMiddleware, UsersController.blockUser);
 router.get('/:id', UsersController.getUser);
 
 
