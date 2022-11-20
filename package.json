@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "pretest": "eslint **/*.js",
+    "pretest": "eslint src/**/*.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand ./test",
     "start": "node .",
     "dev": "nodemon ."
