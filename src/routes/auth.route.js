@@ -7,8 +7,6 @@ const router = Router();
 
 router.post('/', AuthController.login);
 
-router.get('/', AuthMiddleware, AuthController.getCurrentUser);
-
 router.post('/register', AuthController.createUser);
 
 router.get('/logout', AuthMiddleware, AuthController.logout);

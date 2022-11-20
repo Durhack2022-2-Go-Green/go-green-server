@@ -3,20 +3,6 @@ import jsonwebtoken from 'jsonwebtoken';
 import { UserModel } from '../schemas/user.schema.js';
 import getError from '../lib/errorhandler.js';
 
-export const getCurrentUser = async (req, res, next) => {
-	const user = await UserModel.findById(req.user.id);
-
-	if(!user) return res.status(401).json({ message: 'Unauthorized' });
-
-	res.status(200).json({ 
-		message: 'User retrieved Successfully',
-		user: {
-			id: user._id,
-			username: user.username
-		}
-	});
-};
-
 export const login = async (req, res, next) => {
 	const user = await UserModel.findOne({username: req.body.username});
 	try {
