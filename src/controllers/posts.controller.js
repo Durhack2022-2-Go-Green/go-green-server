@@ -33,7 +33,7 @@ export const getUserPosts = async (req, res, next) => {
 export const getPost = async (req, res, next) => {
 	const { id } = req.params;
 
-	const post = PostModel.findById(id);
+	const post = await PostModel.findById(id);
 	if (post === undefined) {
 		res.status(404).json({ message: 'Post not found' });
 	} else {
