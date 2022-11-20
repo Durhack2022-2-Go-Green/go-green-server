@@ -1,6 +1,7 @@
 import { UserModel } from '../schemas/user.schema.js';
 
 import getError from '../lib/errorhandler.js';
+import { NotificationModel } from '../schemas/notification.schema.js';
 
 export const getCurrentUser = async (req, res, next) => {
 	const user = await UserModel.findById(req.user.id);
@@ -36,6 +37,36 @@ export const getUser = async (req, res, next) => {
 		return res.status(404).json({ message: 'User not found' });
 	}	
 };
+
+export const getNotifications = async (req, res, next) => {
+	const notifications = await NotificationModel.find({ user: req.user.id }).sort({ updatedAt: -1 });
+
+	const offset = parseInt(req.query.offset) || 0;
+	const limit = parseInt(req.query.limit) || 20;
+
+	const paginatedNotifications = notifications.slice(offset, offset + limit);
+
+	res.status(200).json({
+		notifications: paginatedNotifications,
+	});
+};
+
+export const dismissNotification = async (req, res, next) => {
+	const { id } = req.params;
+
+	if(!id) return res.status(400).json({ message: 'Bad request' });
+
+	const notification = await NotificationModel.findById(id);
+	if (notification === undefined) {
+		res.status(404).json({ message: 'Notification not found' });
+	} else {
+		notification.viewed = true;
+		notification.save((err, dat) => {
+			if(err) return res.status(400).json({ error: getError(err) });
+			res.status(201).json({ message: 'Notification dismissed', notification: dat});
+		});
+	}
+});
 
 export const updateUser = async (req, res, next) => {
 	const user = await UserModel.findById(req.user.id);

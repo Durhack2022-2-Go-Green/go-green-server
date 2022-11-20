@@ -9,6 +9,8 @@ const router = Router();
 
 router.use('/friends', AuthMiddleware, FriendsRouter);
 router.get('/', AuthMiddleware, UsersController.getCurrentUser);
+router.get('/notifications', AuthMiddleware, UsersController.getNotifications);
+router.put('/dismiss-notification/:id', AuthMiddleware, UsersController.dismissNotification);
 router.put('/update', AuthMiddleware, UsersController.updateUser);
 router.get('/:id', UsersController.getUser);
 
