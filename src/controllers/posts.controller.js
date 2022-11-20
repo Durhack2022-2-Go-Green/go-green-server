@@ -50,11 +50,10 @@ export const addComment = async (req, res, next) => {
 	const { id } = req.params;
 
 	//TODO: data validation on request body
-	const post = PostModel.findById(id);
+	const post = await PostModel.findById(id);
 	if (post === undefined) {
 		res.status(404).json({ message: 'Post not found' });
 	} else {
-		// TODO: is this the right thing to push onto the array?
 		const comment = new CommentModel({
 			authorId: req.user.id,
 			...req.body
