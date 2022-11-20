@@ -42,6 +42,9 @@ export const createUser = async (req, res, next) => {
 	const user = new UserModel({
 		username: req.body.username,
 		password: req.body.password,
+		email: req.body.email,
+		forename: req.body.forename,
+		surname: req.body.surname,
 	});
 
 	user.save((err, dat) => {

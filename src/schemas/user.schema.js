@@ -10,6 +10,19 @@ export const UserSchema = new Schema({
 		require: 'Name is required',
 		unique: true
 	},
+	email: {
+		type: String,
+		required: true,
+		unique: true
+	},
+	forename: {
+		type: String,
+		required: true,
+	},
+	surname: {
+		type: String,
+		required: true,
+	},
 	password: {
 		type: String,
 		required: true
