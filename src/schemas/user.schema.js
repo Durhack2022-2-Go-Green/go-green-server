@@ -45,7 +45,7 @@ export const UserSchema = new Schema({
 		default: '',
 		max: 256
 	},
-	city: {
+	from: {
 		type: String,
 		default: '',
 		max: 50

@@ -9,6 +9,7 @@ const router = Router();
 
 router.use('/friends', AuthMiddleware, FriendsRouter);
 router.get('/', AuthMiddleware, UsersController.getCurrentUser);
+router.put('/update', AuthMiddleware, UsersController.updateUser);
 router.get('/:id', UsersController.getUser);
 
 
