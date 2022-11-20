@@ -12,6 +12,6 @@ export const NotificationSchema = new Schema({
 		type: Boolean,
 		default: false
 	}
-}, { collection: 'notifications' });
+}, { collection: 'notifications' }, { timestamps: true });
 
 export const NotificationModel = model('Notification', NotificationSchema);
