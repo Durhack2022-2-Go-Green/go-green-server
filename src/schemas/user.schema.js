@@ -15,6 +15,11 @@ export const UserSchema = new Schema({
 		required: true
 	},
 	profilePicture: ImageSchema,
+	bannerPicture: ImageSchema,
+	points: {
+		type: Number,
+		default: 0
+	},
 	friends: {
 		type: Array, 
 		default: []

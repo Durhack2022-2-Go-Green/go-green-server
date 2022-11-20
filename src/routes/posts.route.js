@@ -11,6 +11,8 @@ router.get('/:id', PostsController.getPost);
 
 router.post('/:id/add_comment', AuthMiddleware, PostsController.addComment);
 
+router.post('/:id/like', AuthMiddleware, PostsController.likePost);
+
 router.post('/', AuthMiddleware, PostsController.createPost);
 
 export default router;

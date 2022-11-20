@@ -2,6 +2,7 @@ import { PostModel } from '../schemas/post.schema.js';
 
 import getError from '../lib/errorhandler.js';
 import { CommentModel } from '../schemas/comment.schema.js';
+import { UserModel } from '../schemas/user.schema.js';
 
 export const getPosts = async (req, res, next) => {
 	const { userId } = req.query;
@@ -62,6 +63,41 @@ export const addComment = async (req, res, next) => {
 		post.save((err, dat) => {
 			if(err) return res.status(400).json({ error: getError(err) });
 			res.status(201).json({ message: 'Comment added', user: dat});
+		});
+	}
+};
+
+// TODO likely requires extensive testing :O
+export const likePost = async (req, res, next) => {
+	const { id } = req.params;
+
+	const post = PostModel.findById(id);
+	if (post === undefined) {
+		res.status(404).json({ message: 'Post not found' });
+	} else {
+		if (post.likes.includes(req.user.id)) {
+			res.status(400).json({ message: 'User already liked post' });
+			return;
+		}
+
+		// Indicate that user has liked the post
+		post.likes.push(req.user.id);
+		post.save((postErr, postDat) => {
+			if(postErr) return res.status(400).json({ error: getError(postErr) });
+
+			// For the author ---
+			const user = UserModel.findById(post.authorId);
+			if (user === undefined) {
+				res.status(404).json({ message: 'User no longer exists' });
+			} else {
+				// Increment the user's point count
+				user.points += 1;
+				user.save((err) => {
+					if(err) return res.status(400).json({ error: getError(err) });
+					// Send the updated post
+					res.status(201).json({ message: 'User points updated', user: postDat});
+				});
+			}
 		});
 	}
 };
