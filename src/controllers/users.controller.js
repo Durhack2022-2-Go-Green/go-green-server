@@ -4,16 +4,13 @@ import getError from '../lib/errorhandler.js';
 import { NotificationModel } from '../schemas/notification.schema.js';
 
 export const getCurrentUser = async (req, res, next) => {
-	const user = await UserModel.findById(req.user.id);
+	const user = await UserModel.findById(req.user.id, { password: 0, __v: 0 });
 
 	if(!user) return res.status(401).json({ message: 'Unauthorized' });
 
 	res.status(200).json({ 
 		message: 'User retrieved Successfully',
-		user: {
-			id: user._id,
-			username: user.username
-		}
+		user: user
 	});
 };
 
@@ -23,15 +20,12 @@ export const getUser = async (req, res, next) => {
 	if(!id) return res.status(400).json({ message: 'Bad request' });
 	
 	try {
-		const user = await UserModel.findById(id);
+		const user = await UserModel.findById(id, { password: 0, __v: 0, isAdmin: 0, pendingInvites: 0, pendingRequests: 0, blockedUsers: 0});
 		if(!user) throw new Error('User not found');
 
 		return res.status(200).json({ 
 			message: 'User retrieved Successfully',
-			user: {
-				id: user._id,
-				username: user.username
-			}
+			user: user
 		});
 	} catch (err) {
 		return res.status(404).json({ message: 'User not found' });
@@ -91,7 +85,7 @@ export const blockUser = async (req, res, next) => {
 				}
 			});
 		}
-		
+
 		if(user.friends.includes(target._id)) {
 			user.friends = user.friends.filter(id => !id.equals(target._id));
 			target.friends = target.friends.filter(id => !id.equals(user._id));
