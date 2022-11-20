@@ -66,7 +66,7 @@ export const dismissNotification = async (req, res, next) => {
 			res.status(201).json({ message: 'Notification dismissed', notification: dat});
 		});
 	}
-});
+};
 
 export const updateUser = async (req, res, next) => {
 	const user = await UserModel.findById(req.user.id);
