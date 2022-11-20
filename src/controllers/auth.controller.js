@@ -39,9 +39,10 @@ export const createUser = async (req, res, next) => {
 	// not sure if mongoose handles data validation
 	// TODO: validate data if not already done by mongoose
 
-	const user = new UserModel(
-		req.body
-	);
+	const user = new UserModel({
+		username: req.body.username,
+		password: req.body.password,
+	});
 
 	user.save((err, dat) => {
 		if(err) return res.status(400).json({ error: getError(err) });
