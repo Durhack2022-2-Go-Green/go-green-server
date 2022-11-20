@@ -38,7 +38,7 @@ export const getUser = async (req, res, next) => {
 };
 
 export const updateUser = async (req, res, next) => {
-	const user = UserModel.findById(req.user.id);
+	const user = await UserModel.findById(req.user.id);
 
 	if (!user) return res.status(404).json({ message: 'User not found' });
 
