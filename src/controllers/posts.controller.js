@@ -7,21 +7,27 @@ import { NotificationModel } from '../schemas/notification.schema.js';
 import winston from 'winston';
 
 export const getPosts = async (req, res, next) => {
-	const { userId } = req.query;
-	if (userId === undefined) {
-		// TODO get posts for user's timeline
-		res.status(501).json({ message: 'Not implemented' });
-		return;
-	} else {
-		const posts = PostModel.find({ author: userId });
-
-		if (posts.length === 0) {
-			res.status(204).json({ message: 'No posts found' });
-		} else {
-			res.status(200).json({ posts });
-		}
+	try {
+		const user = await UserModel.findById(req.user.id);
+		if(!user) return res.status(401).json({ message: 'Unauthorized' });
+		const posts = (await PostModel.find()).filter(post => user.friends.includes(post.authorId));
+		
+		return res.status(200).json({ message: 'Posts retrieved successfully', posts });
+	} catch (err) {
+		return res.status(500).json({error: getError(err)});
 	}
+};
 
+export const getUserPosts = async (req, res, next) => {
+	const { id } = req.params;
+
+	const posts = await PostModel.find({ authorId: id });
+
+	if (posts.length === 0) {
+		res.status(204).json({ message: 'No posts found' });
+	} else {
+		res.status(200).json({ posts });
+	}
 };
 
 export const getPost = async (req, res, next) => {

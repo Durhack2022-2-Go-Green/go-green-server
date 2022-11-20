@@ -5,7 +5,8 @@ import * as PostsController from '../controllers/posts.controller.js';
 
 const router = Router();
 
-router.get('/', PostsController.getPosts);
+router.get('/', AuthMiddleware, PostsController.getPosts);
+router.get('/user/:id', PostsController.getUserPosts);
 
 router.get('/:id', PostsController.getPost);
 
