@@ -11,6 +11,5 @@ router.delete('/:id', FriendsController.removeFriend);
 
 router.get('/requests', FriendsController.getRequests);
 router.get('/requests/sent', FriendsController.getSentRequests);
-router.post('/requests/:id', FriendsController.respondToRequest);
 
 export default router;
