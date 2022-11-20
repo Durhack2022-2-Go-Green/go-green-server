@@ -10,6 +10,7 @@ const router = Router();
 router.use('/friends', AuthMiddleware, FriendsRouter);
 router.get('/', AuthMiddleware, UsersController.getCurrentUser);
 router.put('/update', AuthMiddleware, UsersController.updateUser);
+router.post('/:id/block', AuthMiddleware, UsersController.blockUser);
 router.get('/:id', UsersController.getUser);
 
 

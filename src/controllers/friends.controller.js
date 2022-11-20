@@ -19,6 +19,10 @@ export const addFriend = async (req, res, next) => {
 		if(user.friends.includes(target._id)) return res.status(400).json({ message: 'You are already friends with this user' });
 		if(user.pendingRequests.includes(target._id)) return res.status(400).json({ message: 'You have already sent a friend request to this user' });
 		
+		if(user.blockedUsers.includes(target._id)) {
+			user.blockedUsers = user.blockedUsers.filter(id => !id.equals(target._id));
+		}
+		
 		if(target.blockedUsers.includes(user._id)) return res.status(400).json({ message: 'You have been blocked by this user' });
 
 		if(target.pendingRequests.includes(user._id)) {
