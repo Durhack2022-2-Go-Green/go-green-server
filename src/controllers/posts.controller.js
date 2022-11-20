@@ -83,22 +83,32 @@ export const addComment = async (req, res, next) => {
 export const likePost = async (req, res, next) => {
 	const { id } = req.params;
 
-	const post = PostModel.findById(id);
+	const post = await PostModel.findById(id);
 	if (post === undefined) {
 		res.status(404).json({ message: 'Post not found' });
 	} else {
-		if (post.likes.includes(req.user.id)) {
-			res.status(400).json({ message: 'User already liked post' });
+		const user = await UserModel.findById(post.authorId);
+		if (post.points.includes(req.user.id)) {
+			post.points = post.points.filter(id => !id.equals(req.user.id));
+			user.points = Math.max(0, user.points - 1);
+			
+			user.save((err) => {
+				if(err) return res.status(400).json({ error: getError(err) });
+
+				post.save((err, dat) => {
+					if(err) return res.status(400).json({ error: getError(err) });
+					return res.status(201).json({ message: 'Post unliked', post: dat});
+				});
+			});
 			return;
 		}
 
 		// Indicate that user has liked the post
-		post.likes.push(req.user.id);
+		post.points.push(req.user.id);
 		post.save((postErr, postDat) => {
 			if(postErr) return res.status(400).json({ error: getError(postErr) });
 
 			// For the author ---
-			const user = UserModel.findById(post.authorId);
 			if (user === undefined) {
 				res.status(404).json({ message: 'User no longer exists' });
 			} else {
